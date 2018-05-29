@@ -35,7 +35,9 @@ void LeadFeedback::on_openFile_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Открыть шаблон отзыва/рецензии"),
                                                     QDir::currentPath(),
-                                                    tr("Document files (*.docx);;All files (*.*)"));
+                                                    tr("Document files (*.docx);;All files (*.*)"),
+                                                    nullptr,
+                                                    QFileDialog::DontUseNativeDialog);
     ui->pathToFile->setText(fileName);
 }
 
@@ -44,8 +46,9 @@ void LeadFeedback::on_loadStudentsFromFile_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     "Открыть файл со студентами",
                                                     QDir::currentPath(),
-                                                    "Student list (*.slst)");
-    qDebug() << "Select file" << fileName;
+                                                    "Student list (*.slst)"/*,
+                                                    NULL,
+                                                    QFileDialog::DontUseNativeDialog*/);
     QFile fileStudents(fileName);
     if(fileStudents.open(QIODevice::ReadWrite | QIODevice::Text)) {
         int i =0;
@@ -166,24 +169,31 @@ void LeadFeedback::on_generateFeedbacks_clicked()
 
         WordProcessingMerger& l_merger = WordProcessingMerger::getInstance();
         l_start = clock();
+
         l_merger.load("current_template.dfw");
-        l_merger.setClipboardValue("Отзыв","Институт","Нефти и газа");
 
-        l_merger.setClipboardValue("Отзыв","Кафедра",prepareString(70, "Топливообеспечения и горюче-смазочных материалов"));
+        qDebug() << QString::fromLocal8Bit(l_merger.getItems().c_str());
 
+        l_merger.setClipboardValue("Отзыв","Институт",ui->institute->text().toStdString());
+        l_merger.setClipboardValue("Отзыв","Кафедра",prepareString(70, ui->chair->text()));
+        l_merger.setClipboardValue("Отзыв","Дисциплина",prepareString(70-14, ui->subject->text()));
+        l_merger.setClipboardValue("Отзыв","группа",ui->group->text().toStdString());
+        l_merger.setClipboardValue("Отзыв","курс", ui->course->currentData().toDouble());
+        l_merger.setClipboardValue("Отзыв","семестр", ui->term->currentData().toDouble());
+        l_merger.setClipboardValue("Отзыв","направление",prepareString(70-23, ui->direction->document()->toPlainText()));
+        l_merger.setClipboardValue("Отзыв","профиль",prepareString(70-8, ui->profile->document()->toPlainText()));
+        l_merger.setClipboardValue("Отзыв","ФИО_Руководителя",prepareString(70-29, ui->leader_name->text() + ", " + ui->leader_title->text()));
+        l_merger.setClipboardValue("Отзыв","характеристика",prepareString(70, ui->characteristic->document()->toPlainText()));
 
-        l_merger.setClipboardValue("Отзыв","Дисциплина",prepareString(70-14, "Информатика Федеральное государственное автономное образовательное учреждение высшего образования"));
+        if (ui->limitations->selectedItems().count()== 0) {
+            ui->limitations->setCurrentRow(0);
+        }
+
+        l_merger.setClipboardValue("Отзыв","замечания",prepareString(70, ui->limitations->currentItem()->text()));
+        l_merger.setClipboardValue("Отзыв","качество",prepareString(70, "Ганжа Владимир Александрович, кандидат технических наук"));
+
         l_merger.setClipboardValue("Отзыв","Тема",prepareString(70-5, "Расчет личных финансовых трат"));
         l_merger.setClipboardValue("Отзыв","ФИО",prepareString(70-9, "Сатышев Антон Сергеевич"));
-        l_merger.setClipboardValue("Отзыв","группа","НГ10-25Б");
-        l_merger.setClipboardValue("Отзыв","курс",(double) 2);
-        l_merger.setClipboardValue("Отзыв","семестр",(double) 4);
-        l_merger.setClipboardValue("Отзыв","направление",prepareString(70-23, "23.03.03 Эксплуатация транспортно-технологических машин и комплексов"));
-        l_merger.setClipboardValue("Отзыв","профиль",prepareString(70-8, "23.03.03.06 Сервис транспортных и транспортно-технологических машин и оборудования (нефтепродуктообеспечение и газоснабжение)"));
-        l_merger.setClipboardValue("Отзыв","ФИО_Руководителя",prepareString(70-29, "Ганжа Владимир Александрович, кандидат технических наук"));
-        l_merger.setClipboardValue("Отзыв","характеристика",prepareString(70, "Ганжа Владимир Александрович, кандидат технических наук"));
-        l_merger.setClipboardValue("Отзыв","замечания",prepareString(70, "Ганжа Владимир Александрович, кандидат технических наук"));
-        l_merger.setClipboardValue("Отзыв","качество",prepareString(70, "Ганжа Владимир Александрович, кандидат технических наук"));
         l_merger.setClipboardValue("Отзыв","оценка","4 хорошо");
         l_merger.setClipboardValue("Отзыв","ИО_Фамилия_Р","В.А. Ганжа");
 
@@ -191,6 +201,7 @@ void LeadFeedback::on_generateFeedbacks_clicked()
         l_merger.setClipboardValue("Отзыв","дата", (double) QDateTime::currentDateTime().toTime_t());
 
         l_merger.paste("Отзыв");
+
         qDebug() << "Created (in"
             << (double) (clock() - l_start) / CLOCKS_PER_SEC
             << "seconds).";
@@ -198,7 +209,12 @@ void LeadFeedback::on_generateFeedbacks_clicked()
         QString fileName = QFileDialog::getSaveFileName(this,
                                                         tr("Сохранить отзыв/рецензию"),
                                                         QDir::currentPath(),
-                                                        tr("Document files (*.docx);;All files (*.*)"));
+                                                        tr("Document files (*.docx);;All files (*.*)"),
+                                                        nullptr,
+                                                        QFileDialog::DontUseNativeDialog);
+        if (fileName.isEmpty()) {
+            return;
+        }
         l_merger.save(fileName.toLocal8Bit().constData());
 
 

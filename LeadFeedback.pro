@@ -22,13 +22,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-DOCXFACTORY = "C:/Program Files (x86)/DocxFactory"
+DOCXFACTORY = "../LeadFeedback/DocxFactory"
 
 INCLUDEPATH += \
-            $$DOCXFACTORY/include
+        $$DOCXFACTORY/include
 
 LIBS += \
-     -L$$DOCXFACTORY/lib/ -lDocxFactory
+        -L$$DOCXFACTORY/lib/ -lDocxFactory
 
 SOURCES += \
         main.cpp \
@@ -41,3 +41,10 @@ HEADERS += \
 
 FORMS += \
         leadfeedback.ui
+
+RESOURCES += \
+        res/main.qrc
+win32 {
+    RC_ICONS = res/icon/main.ico
+#    RC_FILE += res/main_ico.rc
+}

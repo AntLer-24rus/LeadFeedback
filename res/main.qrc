@@ -1,2 +1,13 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="main">icon/main.ico</file>
+    </qresource>
+    <qresource prefix="/png">
+        <file alias="laod">png/load.png</file>
+        <file alias="save">png/save.png</file>
+        <file alias="clean">png/clean.png</file>
+        <file alias="remove">png/remove.png</file>
+        <file alias="add">png/add.png</file>
+        <file alias="resize">png/resize.png</file>
+    </qresource>
+</RCC>
