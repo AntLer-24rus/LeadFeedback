@@ -8,6 +8,8 @@
 #include "WordProcessingMerger.h"
 #include <exception>
 #include <QMessageBox>
+#include <QListWidget>
+#include <QRandomGenerator>
 
 namespace Ui {
 class LeadFeedback;
@@ -41,6 +43,16 @@ private slots:
     void on_removeStudent_clicked();
 
     void on_generateFeedbacks_clicked();
+
+    void on_addLimitatio_clicked();
+
+    void on_limitations_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_removeLimitation_clicked();
+
+    void on_loadLimitationsFromFile_clicked();
+
+    void on_saveLimitationsToFile_clicked();
 
 private:
     Ui::LeadFeedback *ui;

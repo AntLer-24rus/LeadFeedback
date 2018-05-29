@@ -149,14 +149,38 @@ void LeadFeedback::on_removeStudent_clicked()
 void LeadFeedback::on_generateFeedbacks_clicked()
 {
     QString fileName = ui->pathToFile->text();
+    QString warningString = "";
     if (fileName.isEmpty())
     {
-        qDebug() << "Empty path to file";
-        return;
-    } else if (!QFileInfo(fileName).exists()){
-        qDebug() << "file not exists";
+        if (!warningString.isEmpty())
+            warningString.append("\n");
+        warningString.append("\tНе выбран файл шаблона");
+
+    }
+    if (!QFileInfo(fileName).exists()){
+        if (!warningString.isEmpty())
+            warningString.append("\n");
+        warningString.append("\tФайл шаблона не существует");
+    }
+    if (ui->tableStudents->rowCount() < 1) {
+        if (!warningString.isEmpty())
+            warningString.append("\n");
+        warningString.append("\tНет ниодного студента");
+    }
+    if (ui->limitations->count() < 1) {
+        if (!warningString.isEmpty())
+            warningString.append("\n");
+        warningString.append("\tНет ниодного замечания");
+    }
+
+    if (!warningString.isEmpty()) {
+        QMessageBox::warning(this, tr("LeadFeedback"),
+                             "Ошибки заполения:\n"
+                             + warningString
+                             + "\nУстраните ошибки и попробуйте заново...");
         return;
     }
+
     try
     {
         WordProcessingCompiler& l_compiler = WordProcessingCompiler::getInstance();
@@ -172,35 +196,71 @@ void LeadFeedback::on_generateFeedbacks_clicked()
 
         l_merger.load("current_template.dfw");
 
-        qDebug() << QString::fromLocal8Bit(l_merger.getItems().c_str());
+        for (int i = 0; i < ui->tableStudents->rowCount(); i++) {
+            l_merger.setClipboardValue("Отзыв","Институт",ui->institute->text().toStdString());
+            l_merger.setClipboardValue("Отзыв","Кафедра",prepareString(70, ui->chair->text()));
+            l_merger.setClipboardValue("Отзыв","Дисциплина",prepareString(70-14, ui->subject->text()));
+            l_merger.setClipboardValue("Отзыв","группа",ui->group->text().toStdString());
+            l_merger.setClipboardValue("Отзыв","курс", ui->course->currentText().toDouble());
+            l_merger.setClipboardValue("Отзыв","семестр", ui->term->currentText().toDouble());
+            l_merger.setClipboardValue("Отзыв","направление",prepareString(70-23, ui->direction->document()->toPlainText()));
+            l_merger.setClipboardValue("Отзыв","профиль",prepareString(70-8, ui->profile->document()->toPlainText()));
 
-        l_merger.setClipboardValue("Отзыв","Институт",ui->institute->text().toStdString());
-        l_merger.setClipboardValue("Отзыв","Кафедра",prepareString(70, ui->chair->text()));
-        l_merger.setClipboardValue("Отзыв","Дисциплина",prepareString(70-14, ui->subject->text()));
-        l_merger.setClipboardValue("Отзыв","группа",ui->group->text().toStdString());
-        l_merger.setClipboardValue("Отзыв","курс", ui->course->currentData().toDouble());
-        l_merger.setClipboardValue("Отзыв","семестр", ui->term->currentData().toDouble());
-        l_merger.setClipboardValue("Отзыв","направление",prepareString(70-23, ui->direction->document()->toPlainText()));
-        l_merger.setClipboardValue("Отзыв","профиль",prepareString(70-8, ui->profile->document()->toPlainText()));
-        l_merger.setClipboardValue("Отзыв","ФИО_Руководителя",prepareString(70-29, ui->leader_name->text() + ", " + ui->leader_title->text()));
-        l_merger.setClipboardValue("Отзыв","характеристика",prepareString(70, ui->characteristic->document()->toPlainText()));
+            QString leaderFulNameAndTitle = ui->leadSurname->text() + " " +
+                                            ui->leadName->text() + " " +
+                                            ui->leadMiddleName->text() + ", " +
+                                            ui->leadTitle->text();
 
-        if (ui->limitations->selectedItems().count()== 0) {
-            ui->limitations->setCurrentRow(0);
+            l_merger.setClipboardValue("Отзыв","ФИО_Руководителя",prepareString(70-29, leaderFulNameAndTitle));
+            l_merger.setClipboardValue("Отзыв","характеристика",prepareString(70, ui->characteristic->toPlainText()));
+
+
+
+            QString fullName = ui->tableStudents->item(i,0)->text();
+            QString topic = ui->tableStudents->item(i,1)->text();
+            QDateTime date = QDateTime::fromString(ui->tableStudents->item(i,2)->text(),"dd.MM.yyyy").addDays(1);
+            QString score;
+            switch (ui->tableStudents->item(i,3)->text().toInt()) {
+            case 3:
+                score = "3, удовлетворительно";
+                break;
+            case 4:
+                score = "4, хорошо";
+                break;
+            case 5:
+                score = "5, отлично";
+                break;
+            default:
+                score = "";
+                break;
+            }
+
+
+            l_merger.setClipboardValue("Отзыв","Тема",prepareString(70-5, topic));
+            l_merger.setClipboardValue("Отзыв","ФИО",prepareString(70-9, fullName));
+            l_merger.setClipboardValue("Отзыв","оценка", score.toStdString());
+            l_merger.setClipboardValue("Отзыв","дата", (double) date.toTime_t());
+
+            int x = QRandomGenerator::global()->bounded((double) ui->limitations->count());
+            QString limitation = ui->limitations->item(x)->text();
+            QString quality = ui->quality->toPlainText();
+
+            l_merger.setClipboardValue("Отзыв","замечания",prepareString(70, limitation));
+            l_merger.setClipboardValue("Отзыв","качество",prepareString(70, quality));
+
+            QString leader_name_formated = ui->leadName->text().left(1) + ". " +
+                                           ui->leadMiddleName->text().left(1) + ". " +
+                                           ui->leadSurname->text();
+
+            l_merger.setClipboardValue("Отзыв","ИО_Фамилия_Р",leader_name_formated.toStdString());
+
+            l_merger.paste("Отзыв");
         }
 
-        l_merger.setClipboardValue("Отзыв","замечания",prepareString(70, ui->limitations->currentItem()->text()));
-        l_merger.setClipboardValue("Отзыв","качество",prepareString(70, "Ганжа Владимир Александрович, кандидат технических наук"));
-
-        l_merger.setClipboardValue("Отзыв","Тема",prepareString(70-5, "Расчет личных финансовых трат"));
-        l_merger.setClipboardValue("Отзыв","ФИО",prepareString(70-9, "Сатышев Антон Сергеевич"));
-        l_merger.setClipboardValue("Отзыв","оценка","4 хорошо");
-        l_merger.setClipboardValue("Отзыв","ИО_Фамилия_Р","В.А. Ганжа");
 
 
-        l_merger.setClipboardValue("Отзыв","дата", (double) QDateTime::currentDateTime().toTime_t());
 
-        l_merger.paste("Отзыв");
+
 
         qDebug() << "Created (in"
             << (double) (clock() - l_start) / CLOCKS_PER_SEC
@@ -223,7 +283,6 @@ void LeadFeedback::on_generateFeedbacks_clicked()
                                         QMessageBox::Yes|QMessageBox::No);
           if (reply == QMessageBox::Yes) {
             QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
-
           }
 
     }
@@ -234,3 +293,64 @@ void LeadFeedback::on_generateFeedbacks_clicked()
                               + tr(p_exception.what()));
     }
 }
+
+void LeadFeedback::on_addLimitatio_clicked()
+{
+    QListWidgetItem *item = new QListWidgetItem("Введите текст замечания или недостатков", ui->limitations);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    ui->limitations->editItem(item);
+}
+
+
+void LeadFeedback::on_limitations_itemDoubleClicked(QListWidgetItem *item)
+{
+    ui->limitations->editItem(item);
+}
+
+void LeadFeedback::on_removeLimitation_clicked()
+{
+    QListWidgetItem *item = ui->limitations->currentItem();
+    if (item != nullptr) {
+        delete item;
+    }
+}
+
+void LeadFeedback::on_loadLimitationsFromFile_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    "Открыть файл со студентами",
+                                                    QDir::currentPath(),
+                                                    "Limitation list (*.llst)"/*,
+                                                    NULL,
+                                                    QFileDialog::DontUseNativeDialog*/);
+    QFile fileLimitation(fileName);
+    if(fileLimitation.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        while (!fileLimitation.atEnd()) {
+            QString line = fileLimitation.readLine();
+            line = line.trimmed();
+            QListWidgetItem *item = new QListWidgetItem(line, ui->limitations);
+            item->setFlags(item->flags() | Qt::ItemIsEditable);
+        }
+        // Ресайзим колонки по содержимому
+        ui->tableStudents->resizeColumnsToContents();
+    }
+
+    fileLimitation.close();
+}
+
+void LeadFeedback::on_saveLimitationsToFile_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                "Выберте файл для сохранения",
+                QDir::currentPath(),
+                "Limitation list (*.llst)");
+    QFile fileLimitation(fileName);
+    if(fileLimitation.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        foreach (QListWidgetItem *item, ui->limitations->findItems("*", Qt::MatchWildcard)) {
+            fileLimitation.write(item->text().append("\n").toUtf8());
+        }
+    }
+    fileLimitation.close();
+}
+

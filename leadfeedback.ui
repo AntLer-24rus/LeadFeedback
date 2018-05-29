@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>613</width>
-    <height>715</height>
+    <width>813</width>
+    <height>770</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -110,107 +110,135 @@
       <property name="title">
        <string>Общие параметры</string>
       </property>
-      <layout class="QFormLayout" name="formLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
-       <property name="labelAlignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="formAlignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Институт:</string>
-         </property>
-         <property name="buddy">
-          <cstring>institute</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="institute">
-         <property name="placeholderText">
-          <string>Полностью</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Кафедра:</string>
-         </property>
-         <property name="buddy">
-          <cstring>chair</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="chair">
-         <property name="placeholderText">
-          <string>Полностью</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Дисциплина:</string>
-         </property>
-         <property name="buddy">
-          <cstring>subject</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="subject">
-         <property name="placeholderText">
-          <string>Полностью</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Руководитель:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leader_name</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,0,1">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,1,0,4">
          <item>
-          <widget class="QLineEdit" name="leader_name">
-           <property name="placeholderText">
-            <string>ФИО полностью</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="label_institute">
            <property name="text">
-            <string>Научное звание:</string>
+            <string>Институт:</string>
            </property>
            <property name="buddy">
-            <cstring>leader_title</cstring>
+            <cstring>institute</cstring>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="leader_title">
-           <property name="text">
-            <string>канд. тех. наук</string>
-           </property>
+          <widget class="QLineEdit" name="institute">
            <property name="placeholderText">
-            <string>Сокращенно</string>
+            <string>Полностью</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_chair">
+           <property name="text">
+            <string>Кафедра:</string>
+           </property>
+           <property name="buddy">
+            <cstring>chair</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="chair">
+           <property name="placeholderText">
+            <string>Полностью</string>
            </property>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_subject">
+           <property name="text">
+            <string>Дисциплина:</string>
+           </property>
+           <property name="buddy">
+            <cstring>subject</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="subject">
+           <property name="placeholderText">
+            <string>Полностью</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Руководитель:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="labelLeadSurname">
+            <property name="text">
+             <string>Фамилия:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leadSurname"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelLeadName">
+            <property name="text">
+             <string>Имя:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leadName"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelLeadMiddleName">
+            <property name="text">
+             <string>Отчество:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leadMiddleName"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelLeadTitle">
+            <property name="text">
+             <string>Научное звание:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="leadTitle"/>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -224,7 +252,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="label_group">
            <property name="text">
             <string>Группа:</string>
            </property>
@@ -259,7 +287,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="label_course">
            <property name="text">
             <string>Курс:</string>
            </property>
@@ -304,7 +332,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_term">
            <property name="text">
             <string>Семестр:</string>
            </property>
@@ -389,7 +417,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_8">
+        <widget class="QLabel" name="label_direction">
          <property name="text">
           <string>Направление:</string>
          </property>
@@ -448,7 +476,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_9">
+        <widget class="QLabel" name="label_profile">
          <property name="text">
           <string>Профиль:</string>
          </property>
@@ -515,7 +543,7 @@
           <enum>QTabWidget::Rounded</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideNone</enum>
@@ -526,7 +554,7 @@
          <property name="tabsClosable">
           <bool>false</bool>
          </property>
-         <widget class="QWidget" name="tab">
+         <widget class="QWidget" name="tab_students">
           <attribute name="title">
            <string>Таблица студентов</string>
           </attribute>
@@ -745,7 +773,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Очистить таблицу</string>
+                <string>Очистить все</string>
                </property>
                <property name="text">
                 <string/>
@@ -805,7 +833,7 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_2">
+         <widget class="QWidget" name="tab_common_characteristic">
           <attribute name="title">
            <string>Основная характеристика</string>
           </attribute>
@@ -815,31 +843,220 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_3">
+         <widget class="QWidget" name="tab_limitations">
           <attribute name="title">
            <string>Замечания и недостатки</string>
           </attribute>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <widget class="QListWidget" name="limitations">
+            <widget class="QListWidget" name="limitations"/>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
              <item>
-              <property name="text">
-               <string>первый элемент</string>
-              </property>
+              <widget class="QPushButton" name="loadLimitationsFromFile">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Загрузить из файла</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res/main.qrc">
+                 <normaloff>:/png/laod</normaloff>:/png/laod</iconset>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
              <item>
-              <property name="text">
-               <string>второй элемент</string>
-              </property>
+              <widget class="QPushButton" name="saveLimitationsToFile">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Сохранить в файл</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res/main.qrc">
+                 <normaloff>:/png/save</normaloff>:/png/save</iconset>
+               </property>
+              </widget>
              </item>
-            </widget>
+             <item>
+              <widget class="QPushButton" name="addLimitatio">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Добавить строку</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res/main.qrc">
+                 <normaloff>:/png/add</normaloff>:/png/add</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="removeLimitation">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Удалить строку</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res/main.qrc">
+                 <normaloff>:/png/remove</normaloff>:/png/remove</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cleanLimitation">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Очистить все</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="res/main.qrc">
+                 <normaloff>:/png/clean</normaloff>:/png/clean</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_4">
+         <widget class="QWidget" name="tab_quality">
           <attribute name="title">
            <string>Качество оформления</string>
           </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QPlainTextEdit" name="quality"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
@@ -890,11 +1107,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>openFile</tabstop>
-  <tabstop>institute</tabstop>
-  <tabstop>chair</tabstop>
-  <tabstop>subject</tabstop>
-  <tabstop>leader_name</tabstop>
-  <tabstop>leader_title</tabstop>
   <tabstop>group</tabstop>
   <tabstop>course</tabstop>
   <tabstop>term</tabstop>
@@ -910,11 +1122,27 @@
   <tabstop>cleanTableStudents</tabstop>
   <tabstop>autoSizeColStudents</tabstop>
   <tabstop>characteristic</tabstop>
-  <tabstop>limitations</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>
   <include location="res/main.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cleanLimitation</sender>
+   <signal>clicked()</signal>
+   <receiver>limitations</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>564</x>
+     <y>591</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>591</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
